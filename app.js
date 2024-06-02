@@ -3,7 +3,7 @@ const expressLayouts = require('express-ejs-layouts');
 const { loadContact, findContact, addContact, cekDuplikat, deleteContact, updateContacts} = require('./utils/contacts');
 const {body, validationResult, check, cookie} = require('express-validator')
 const session = require('express-session')
-const cookeiParser = require('cookie-parser')
+const cookieParser = require('cookie-parser')
 const flash = require('connect-flash')
 
 
@@ -24,7 +24,7 @@ app.use(express.urlencoded({extended: true}));
 
 
 //konfigurasi flash
-app.use(cookeiParser('secret'));
+app.use(cookieParser('secret'));
 app.use(
   session({
     cookie: { maxAge: 6000},
@@ -99,8 +99,8 @@ app.post('/contact', [
     }
     return true;
   }),
-  check('email', 'Email tidak Valid').isEmail(),
-  check('nohp', 'No HP tidak valid').isMobilePhone('id-ID')
+  body('email', 'Email tidak Valid').isEmail(),
+  body('nohp', 'No HP tidak valid').isMobilePhone('id-ID')
 ], (req, res) =>{
   const errors = validationResult(req);
   if(!errors.isEmpty()) {
